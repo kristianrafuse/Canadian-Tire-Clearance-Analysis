@@ -17,7 +17,6 @@ function processData(data) {
     const clearance_price = column['clearance_price'];
     const percentage_off = column['percentage_off'];
     const product_category = column['product_category'];
-    const product_code = column['product_code'];
     const rating = column['rating'];
     const link = column['link'];
 
@@ -27,7 +26,6 @@ function processData(data) {
       clearance_price,
       percentage_off,
       product_category,
-      product_code,
       rating,
       link,
     ];
@@ -52,20 +50,22 @@ $(document).ready(function () {
         { title: 'Clearance Price', className: "text-right" },
         { title: 'Percentage Off', className: "text-right" },
         { title: 'Product Category', className: "text-left" },
-        { title: 'Product Code', className: "text-right" },
         { title: 'Rating', className: "text-right" },
         {
           title: 'Link',
           className: "text-left",
-          render: function (link, type, row, meta) {
-            return type === 'display' ? '<a href="' + link + '">Link</a>' : link;
+          render: function (data, type) {
+            return type === 'display' ? '<a href="' + data + '">' + data + '</a>' : data;
           }
         },
       ];
 
       $('#myTable').DataTable({
         data: formattedData,
+        order: [[3, 'desc']],
         columns: columns,
+        dom: 'Blfrtip',
+        buttons: ['copy', 'csv']
       });
 
       const sale_data = response.sales.csv_data;
@@ -77,27 +77,53 @@ $(document).ready(function () {
         { title: 'Sale Price', className: "text-right" },
         { title: 'Percentage Off', className: "text-right" },
         { title: 'Product Category', className: "text-left" },
-        { title: 'Product Code', className: "text-right" },
         { title: 'Rating', className: "text-right" },
         {
           title: 'Link',
           className: "text-left",
-          render: function (link, type, row, meta) {
-            return type === 'display' ? '<a href="' + link + '">Link</a>' : link;
+          render: function (data, type) {
+            return type === 'display' ? '<a href="' + data + '">' + data + '</a>' : data;
           }
         },
       ];
 
       $('#myTable2').DataTable({
         data: formattedData2,
+        order: [[3, 'desc']],
         columns: columns2,
+        dom: 'Blfrtip',
+        buttons: ['copy', 'csv',]
       });
     },
     error: function (err) {
       console.error('Error fetching data:', err);
-    },
+    },   
+  });
+  $("#emailAlertForm").on("submit", function (event) {
+    event.preventDefault();
+    const email = $("#email").val();
+    const threshold = $("#threshold").val();
+    
+    $.ajax({
+      url: "/subscribe",
+      method: "POST",
+      data: {
+        email: email,
+        threshold: threshold,
+      },
+      dataType: "json",
+      success: function (response) {
+        alert(response.message);
+      },
+      error: function (error) {
+        alert("An error occurred while subscribing.");
+      },
+    });
   });
 });
+
+
+
 
 //     // Extract the data for the bar chart
 //     const regionalData = response.regional.csv_data;
