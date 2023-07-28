@@ -20,10 +20,9 @@ engine = create_engine(url)
 # Create a base class for declarative models
 Base = declarative_base()
 
-# Define the UserPreferences model
+# Define the UserPreferences model for storing email addresses
 class UserPreferences(Base):
     __tablename__ = 'user_preferences'
-
     id = Column(Integer, primary_key=True)
     email = Column(String, nullable=False)
     threshold = Column(Float, nullable=False)
@@ -39,6 +38,7 @@ session = Session()
 def welcome():
     return render_template("index.html")
 
+#route for api/data access
 @app.route("/api")
 def api():
     data = {}
@@ -60,7 +60,7 @@ def api():
 
     return jsonify(data)
 
-
+#route for processing subscriptions 
 @app.route("/subscribe", methods=["POST"])
 def subscribe():
     try:
