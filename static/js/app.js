@@ -95,29 +95,5 @@ $(document).ready(function () {
         buttons: ['copy', 'csv',]
       });
     },
-    error: function (err) {
-      console.error('Error fetching data:', err);
-    },   
-  });
-  $("#emailAlertForm").on("submit", function (event) {
-    event.preventDefault();
-    const email = $("#email").val();
-    const threshold = $("#threshold").val();
-    
-    $.ajax({
-      url: "/subscribe",
-      method: "POST",
-      data: {
-        email: email,
-        threshold: threshold,
-      },
-      dataType: "json",
-      success: function (response) {
-        alert(response.message);
-      },
-      error: function (error) {
-        alert("An error occurred while subscribing.");
-      },
-    });
   });
 });
