@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <meta http-equiv="X-UA-Compatible" content="ie=edge">
+  <title>Canadian Tire Sales</title>
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css">
+  <link rel="stylesheet" href="https://cdn.datatables.net/1.13.5/css/jquery.dataTables.css" />
+  <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/buttons/2.0.0/css/buttons.dataTables.min.css">
+</head>
+
+<body>
+  <div class="container">
+    <div class="row">
+      <div class="col-md-12 jumbotron text-center">
+        <h1>Canadian Tire Clearance and Sale Products</h1>
+        <h3>Find a deal at Canadian Tire using the interactive tables, or signup for email alerts below based on the "Percentage Off"</h3>
+      </div>
+    </div>
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Canadian Tire Deals Analysis</h2>
+
+    <div class='tableauPlaceholder' id='viz1690555072066' style='position: relative'>
+      <noscript>
+        <a href='#'>
+          <img alt='Story 1' src='https://public.tableau.com/static/images/Ca/CanadianTireClearance/Story1/1_rss.png' style='border: none' />
+        </a>
+      </noscript>
+      <object class='tableauViz' style='display:none;'>
+        <param name='host_url' value='https%3A%2F%2Fpublic.tableau.com%2F' />
+        <param name='embed_code_version' value='3' />
+        <param name='site_root' value='' />
+        <param name='name' value='CanadianTireClearance/Story1' />
+        <param name='tabs' value='no' />
+        <param name='toolbar' value='yes' />
+        <param name='static_image' value='https://public.tableau.com/static/images/Ca/CanadianTireClearance/Story1/1.png' />
+        <param name='animate_transition' value='yes' />
+        <param name='display_static_image' value='yes' />
+        <param name='display_spinner' value='yes' />
+        <param name='display_overlay' value='yes' />
+        <param name='display_count' value='yes' />
+        <param name='language' value='en-US' />
+        <param name='filter' value='publish=yes' />
+      </object>
+    </div>
+    <script type='text/javascript'>
+      var divElement = document.getElementById('viz1690555072066');
+      var vizElement = divElement.getElementsByTagName('object')[0];
+      vizElement.style.width = '100%';
+      vizElement.style.height = (divElement.offsetWidth * 0.75) + 'px';
+      var scriptElement = document.createElement('script');
+      scriptElement.src = 'https://public.tableau.com/javascripts/api/viz_v1.js';
+      vizElement.parentNode.insertBefore(scriptElement, vizElement);
+    </script>
+    
+
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Clearance Products</h2>
+        <table id="myTable" class="display" style="padding: 50px;"></table>
+      </div>
+    </div>
+    
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Sale Products</h2>
+        <table id="myTable2" class="display" style="padding: 50px;"></table>
+      </div>
+    </div>
+  </div>
+
+  <div class="col-md-12 text-center">
+    <h2>Email Alerts</h2>
+    <form id="emailAlertForm" style="padding: 50px;">
+      <label for="email">Email:</label>
+      <input type="email" id="email" required>
+    
+      <label for="threshold">Minimum Percentage Off:</label>
+      <input type="number" id="threshold" required>
+
+      <button type="submit">Submit</button>
+    </form>
+  </div>
+
+  
+
+  <script src="https://code.jquery.com/jquery-3.7.0.js"></script>
+  <script src="https://cdn.datatables.net/1.13.5/js/jquery.dataTables.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/dataTables.buttons.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.html5.min.js"></script>
+  <script src="https://cdn.datatables.net/buttons/2.0.0/js/buttons.print.min.js"></script>
+  <script src="https://d3js.org/d3.v5.min.js"></script>
+  <script src="./static/js/app.js"></script>
+</body>
+
+</html>
