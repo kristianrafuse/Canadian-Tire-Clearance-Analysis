@@ -31,7 +31,7 @@ def api():
     data = {}
 
     # Loop through the table names
-    table_names = ["clearance", "hot_sale", "red_alert_deals", "sales"]
+    table_names = ["clearance", "sales"]
     for table_name in table_names:
         try:
             # Execute a select query on each table
