@@ -4,6 +4,7 @@ $.ajax({
   url: url,
   method: 'GET',
   dataType: 'json',
+  cache: false,
   success: function(data) {
     console.log(data);
   },
@@ -93,6 +94,44 @@ $(document).ready(function () {
         columns: columns2,
         dom: 'Blfrtip',
         buttons: ['copy', 'csv',]
+      });
+
+      // Initialize the clearance prices above the threshold table
+      const tableAboveThreshold = $('#myTableAboveThreshold').DataTable({
+        data: [], // Empty data initially; it will be updated later based on the threshold
+        order: [[3, 'asc']],
+        columns: columns,
+        dom: 'Blfrtip',
+        buttons: ['copy', 'csv'],
+      });
+
+      // Get the threshold element and its value
+      const thresholdSlider = document.getElementById('thresholdSlider');
+      const thresholdValue = document.getElementById('thresholdValue');
+
+      // Update the threshold value display when the slider value changes
+      thresholdSlider.addEventListener('input', function () {
+        thresholdValue.textContent = thresholdSlider.value;
+
+        // Calculate the percentage threshold from the slider value
+        const thresholdPercentage = parseFloat(thresholdSlider.value);
+
+        // Filter the clearance_data based on the threshold
+        const dataAboveThresholdClearance = clearance_data.filter(
+          (item) => parseFloat(item.percentage_off) >= thresholdPercentage
+        );
+
+        // Filter the sale_data based on the threshold
+        const sale_data = response.sales.csv_data;
+        const dataAboveThresholdSale = sale_data.filter(
+          (item) => parseFloat(item.percentage_off) >= thresholdPercentage
+        );
+
+        // Combine the filtered clearance data and sale data
+        const dataAboveThreshold = dataAboveThresholdClearance.concat(dataAboveThresholdSale);
+
+        // Update the table with clearance prices above the threshold
+        tableAboveThreshold.clear().rows.add(processData(dataAboveThreshold)).draw();
       });
     },
   });

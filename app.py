@@ -1,7 +1,7 @@
 from flask import Flask, jsonify, render_template, request
 from sqlalchemy import create_engine, Column, String, Integer, Float
 from sqlalchemy.ext.declarative import declarative_base
-from sqlalchemy.orm import sessionmaker
+from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 
 app = Flask(__name__)
@@ -18,28 +18,14 @@ url = f'postgresql://{username}:{password}@{host}/{database}'
 # Create the engine
 engine = create_engine(url)
 
-# Create a base class for declarative models
-Base = declarative_base()
-
-# Define the UserPreferences model for storing email addresses
-class UserPreferences(Base):
-    __tablename__ = 'user_preferences'
-    id = Column(Integer, primary_key=True)
-    email = Column(String, nullable=False)
-    threshold = Column(Float, nullable=False)
-
-# Create the table in the database
-Base.metadata.create_all(engine)
-
-# Create a session to interact with the database
-Session = sessionmaker(bind=engine)
-session = Session()
+# Create a scoped session to interact with the database
+session = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
 def welcome():
     return render_template("index.html")
 
-#route for api/data access
+# Route for api/data access
 @app.route("/api")
 def api():
     data = {}
@@ -61,21 +47,10 @@ def api():
 
     return jsonify(data)
 
-#route for processing subscriptions 
-@app.route("/subscribe", methods=["POST"])
-def subscribe():
-    try:
-        email = request.form.get("email")
-        threshold = int(request.form.get("threshold"))
-
-        # Insert the email and threshold into the database
-        user_preferences = UserPreferences(email=email, threshold=threshold)
-        session.add(user_preferences)
-        session.commit()
-
-        return jsonify({"message": "Subscription successful!"})
-    except Exception as e:
-        return jsonify({"error": f"An error occurred while processing the subscription: {str(e)}"})
+# Remove the session after each request
+@app.teardown_appcontext
+def shutdown_session(exception=None):
+    session.remove()
 
 if __name__ == "__main__":
     app.run()
