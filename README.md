@@ -2,28 +2,28 @@
 CanadianTire Clearance Webscraping
 
 
-This project uses the following: 
+**This project uses the following:**
 
 **app.py:**
-Flask
-sqlalchemy
-os
+* Flask
+* sqlalchemy
+* os
 
 **app.js:**
-ajax
-java script
-html
-datatables
+* ajax
+* java script
+* html
+* datatables
 
-**webscraping: **
-python
-time
-math
-pandas
-sqlalchemy
-splinter/Browser
-BeautifulSoup
-selenium webdriver
-urlparse
-re
-os
+**webscraping: ****
+* python
+* time
+* math
+* pandas
+* sqlalchemy
+* splinter/Browser
+* BeautifulSoup
+* selenium webdriver
+* urlparse
+* re
+* os
