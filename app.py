@@ -18,7 +18,7 @@ url = f'postgresql://{username}:{password}@{host}/{database}'
 # Create the engine
 engine = create_engine(url)
 
-# Create a scoped session to interact with the database
+# Create a scoped session to interact with the database and automatically close after the request has been processed.
 session = scoped_session(sessionmaker(bind=engine))
 
 @app.route("/")
@@ -49,6 +49,9 @@ def api():
     return jsonify(data)
 
 # Remove the session after each request
+# I read that By using a scoped session and the teardown_appcontext, you ensure that sessions are properly 
+# created and cleaned up for each request, preventing any potential resource leaks and ensuring 
+# efficient use of database connections.
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     session.remove()

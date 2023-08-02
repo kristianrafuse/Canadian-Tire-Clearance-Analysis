@@ -1,5 +1,7 @@
+// Define the base URL for the API
 const url = '/api';
 
+// First AJAX request to get data from the API to verify that it's loading properly/accessible
 $.ajax({
   url: url,
   method: 'GET',
@@ -10,9 +12,13 @@ $.ajax({
   },
 });
 
+// Function to process the data received from the API
 function processData(data) {
+  // Initialize an array to store the formatted data
   const formattedData = [];
+  // Iterate through each column in the data
   data.forEach(column => {
+    // Extract the values for each column and store them in variables
     const product_name = column['product_name'];
     const original_price = column['original_price'];
     const clearance_price = column['clearance_price'];
@@ -21,6 +27,7 @@ function processData(data) {
     const rating = column['rating'];
     const link = column['link'];
 
+    // Create a row of data with the extracted values
     const rowData = [
       product_name,
       original_price,
@@ -31,20 +38,26 @@ function processData(data) {
       link,
     ];
 
+    // Add the row of data to the formattedData array
     formattedData.push(rowData);
   });
   return formattedData;
 }
 
+// Document ready function
 $(document).ready(function () {
+  // Second AJAX request to get data from the API
   $.ajax({
     url: url,
     method: 'GET',
     dataType: 'json',
     success: function (response) {
+      // Get the clearance data from the API response
       const clearance_data = response.clearance.csv_data;
+      // Process the clearance data using the processData function
       const formattedData = processData(clearance_data);
 
+      // Define columns for the DataTable representing clearance data
       const columns = [
         { title: 'Product Name', className: "text-left" },
         { title: 'Original Price', className: "text-right" },
