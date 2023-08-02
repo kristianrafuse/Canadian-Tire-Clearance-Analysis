@@ -43,6 +43,7 @@ def api():
             table_data = [dict(zip(columns, row)) for row in rows]
             data[table_name] = {"csv_data": table_data}
         except Exception as e:
+            print(e)
             return jsonify({"error": f"An error occurred while fetching data from the table {table_name}: {str(e)}"})
 
     return jsonify(data)
