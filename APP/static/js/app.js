@@ -68,12 +68,14 @@ $(document).ready(function () {
         {
           title: 'Link',
           className: "text-left",
+          // Custom render function for the link column to get the hyperlinks working
           render: function (data, type) {
             return type === 'display' ? '<a href="' + data + '">' + data + '</a>' : data;
           }
         },
       ];
 
+      // Initialize the DataTable for clearance data
       $('#myTable').DataTable({
         data: formattedData,
         order: [[3, 'desc']],
@@ -111,14 +113,15 @@ $(document).ready(function () {
 
       // Initialize the clearance prices above the threshold table
       const tableAboveThreshold = $('#myTableAboveThreshold').DataTable({
-        data: [], // Empty data initially; it will be updated later based on the threshold
+        // Empty data initially; it will be updated later based on the threshold
+        data: [], 
         order: [[3, 'asc']],
         columns: columns,
         dom: 'Blfrtip',
         buttons: ['copy', 'csv'],
       });
 
-      // Get the threshold element and its value
+      // Get the threshold html element and its value
       const thresholdSlider = document.getElementById('thresholdSlider');
       const thresholdValue = document.getElementById('thresholdValue');
 
@@ -140,10 +143,10 @@ $(document).ready(function () {
           (item) => parseFloat(item.percentage_off) >= thresholdPercentage
         );
 
-        // Combine the filtered clearance data and sale data
+        // Combine the filtered clearance data and sale data -- I want to display both datasets
         const dataAboveThreshold = dataAboveThresholdClearance.concat(dataAboveThresholdSale);
 
-        // Update the table with clearance prices above the threshold
+        // Update the table with clearance and sale prices above the threshold!
         tableAboveThreshold.clear().rows.add(processData(dataAboveThreshold)).draw();
       });
     },
