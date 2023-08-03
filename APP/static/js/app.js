@@ -144,9 +144,12 @@ $(document).ready(function () {
         );
 
         // Combine the filtered clearance data and sale data -- I want to display both datasets
+        // in this table.
         const dataAboveThreshold = dataAboveThresholdClearance.concat(dataAboveThresholdSale);
 
         // Update the table with clearance and sale prices above the threshold!
+        // use 'clear()' to clear the previous selection, and 'draw()' to add the new data.
+
         tableAboveThreshold.clear().rows.add(processData(dataAboveThreshold)).draw();
       });
     },

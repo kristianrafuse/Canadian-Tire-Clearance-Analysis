@@ -36,11 +36,15 @@ def api():
             # Execute a select query on each table
             query = f"SELECT * FROM {table_name}"
             result = engine.execute(query)
-            # Fetch all rows and convert to a list of dictionaries
+            # Fetch all rows and columns
             rows = result.fetchall()
             columns = result.keys()
+            # use zip function to take columns and rows and pair their elements together
+            # then create a dictonary 
             table_data = [dict(zip(columns, row)) for row in rows]
             data[table_name] = {"csv_data": table_data}
+            # error handling -- this saved me when I decided it would be a good idea to upgrade
+            # SQLalchemy...
         except Exception as e:
             print(e)
             return jsonify({"error": f"An error occurred while fetching data from the table {table_name}: {str(e)}"})
