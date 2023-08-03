@@ -8,7 +8,6 @@
 * os
 * time
 * math
-* python
 * pandas
 * urlparse
 * sqlalchemy
