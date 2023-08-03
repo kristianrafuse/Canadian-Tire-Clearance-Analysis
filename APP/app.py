@@ -1,6 +1,5 @@
-from flask import Flask, jsonify, render_template, request
-from sqlalchemy import create_engine, Column, String, Integer, Float
-from sqlalchemy.ext.declarative import declarative_base
+from flask import Flask, jsonify, render_template
+from sqlalchemy import create_engine
 from sqlalchemy.orm import sessionmaker, scoped_session
 import os
 
@@ -52,10 +51,10 @@ def api():
 # I read that By using a scoped session and the teardown_appcontext, you ensure that sessions are properly 
 # created and cleaned up for each request, preventing any potential resource leaks and ensuring 
 # efficient use of database connections.
+
 @app.teardown_appcontext
 def shutdown_session(exception=None):
     session.remove()
 
 if __name__ == "__main__":
     app.run()
-    
