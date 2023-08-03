@@ -1,4 +1,5 @@
 **Canadian Tire Clearance ETL and WebApp**
+**Canadian Tire Clearance ETL and WebApp**
 -------
 
 
@@ -8,7 +9,6 @@
 * os
 * time
 * math
-* python
 * pandas
 * urlparse
 * sqlalchemy
