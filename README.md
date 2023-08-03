@@ -1,4 +1,4 @@
-**Project-4 CanadianTire Clearance Webscraping**
+**Project-4: CanadianTire Clearance Webscraping**
 
 **This project uses the following:**
 
