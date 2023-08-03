@@ -41,10 +41,8 @@
 })
 ```
 
-
-```
 I wanted to dynamically determine the number of loops to use. I judged that total results, or total number of products on sale, divided by the default number of products per page worked well. Using math.ceil to always round up. 
-
+```
     total_results_element = html_soup.find('span', class_='nl-filters__results')
     total_results_text = total_results_element.text if total_results_element else '0'
 
@@ -58,10 +56,8 @@ Default number of products per page
     total_pages = math.ceil(total_results / items_per_page)
 ```
 
-
-```
-Basic structure of locating the object then scraping out the details   
-
+Basic structure of locating the object then scraping out the details 
+```  
     original_price_element = product.find('s', attrs={'aria-hidden': 'true'})
     original_price = original_price_element.text.strip() if original_price_element else 'N/A'
 
@@ -77,20 +73,17 @@ I notice that the urls of the images links contained product category informatio
 
 ```
 
-
-```
 I wasn't actually interested in the image links as image links, but rather to parse out product category information, which didn't seem to be present anywhere else on the page. I created a function that uses urllib.parse from urlparse to grab the information that I wanted. I was having trouble getting re to work here, and this was simpler.
-
+```
     def extract_category(link_url):
         parsed_url = urlparse(link_url)
         path_components = parsed_url.path.split('/')
         category = '/'.join(path_components[3:4])
         return category
-    ```
-
-
 ```
+
 handle survey pop-up
+```
     try:
         not_right_now_button = WebDriverWait(driver3, 10).until(
             EC.element_to_be_clickable((By.ID, "kplDeclineButton"))
@@ -103,9 +96,8 @@ handle survey pop-up
 **app.py Highlights**
 -------
 
-```
 Initial datas serving by accessing my sqlserver, and loop through the table names
-
+```
 table_names = ["clearance", "sales"]
 
 for table_name in table_names:
@@ -137,8 +129,7 @@ return jsonify(data)
 **app.js Highlights**
 -------
 
-Basic setup: 
-``````
+Basic setup:
 ```
     $.ajax({
     url: url,
@@ -151,6 +142,7 @@ Basic setup:
     });
 ```
 
+HTML for initializing Datatables:
 ```
     <div class="row">
       <div class="col-md-12 text-center">
@@ -161,9 +153,8 @@ Basic setup:
 
 ```
 
-
+Initialize the DataTable for clearance data
 ```
-// Initialize the DataTable for clearance data
     $('#myTable').DataTable({
     data: formattedData,
     order: [[3, 'desc']],
@@ -173,8 +164,8 @@ Basic setup:
       });
 ```
 
-```
 In Datatables, there lots of options for defining and modifying columns I was happy to figure out how to get the hyperlinks working.
+```
       const columns2 = [
         { title: 'Product Name', className: "text-left" },
         { title: 'Original Price', className: "text-right" },
@@ -192,8 +183,8 @@ In Datatables, there lots of options for defining and modifying columns I was ha
       ];
 ```
 
-```
 basic html structire for a slider bar 
+```
 
         <label for="thresholdSlider">Find products by Percentage Off.</label>
         <input type="range" id="thresholdSlider" min="0" max="100" step="1" value="0">
@@ -201,9 +192,8 @@ basic html structire for a slider bar
 
 ```
 
-
+Get the threshold html element and its value and use it to populate a table
 ```
-// Get the threshold html element and its value
       const thresholdSlider = document.getElementById('thresholdSlider');
       const thresholdValue = document.getElementById('thresholdValue');
 
