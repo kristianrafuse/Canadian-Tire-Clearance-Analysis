@@ -34,56 +34,63 @@
 -------
 
 ```
-chrome_options = Options()
-chrome_options.add_argument("--incognito")
-chrome_options.add_experimental_option("prefs", {
-    "profile.default_content_setting_values.geolocation": 1
+    chrome_options = Options()
+    chrome_options.add_argument("--incognito")
+    chrome_options.add_experimental_option("prefs", {
+        "profile.default_content_setting_values.geolocation": 1
 })
 ```
 
-```
-# I wanted to dynamically determine the number of loops to use. I judged that total results, or total number of products on sale, divided by the default number of products per page worked well. Using math.ceil to always round up. 
-
-total_results_element = html_soup.find('span', class_='nl-filters__results')
-total_results_text = total_results_element.text if total_results_element else '0'
-
-# using re to extract the first sequence of digits found in the total_results_text and store it in the variable total_results as an integer.
-
-total_results = int(re.search(r'\d+', total_results_text).group())
-# default number of products per page
-
-items_per_page = 24
-total_pages = math.ceil(total_results / items_per_page)
-```
-
 
 ```
-original_price_element = product.find('s', attrs={'aria-hidden': 'true'})
-original_price = original_price_element.text.strip() if original_price_element else 'N/A'
+I wanted to dynamically determine the number of loops to use. I judged that total results, or total number of products on sale, divided by the default number of products per page worked well. Using math.ceil to always round up. 
 
-there were some products with prices in different places, so this fills in those spaces. 
+    total_results_element = html_soup.find('span', class_='nl-filters__results')
+    total_results_text = total_results_element.text if total_results_element else '0'
 
-if original_price == 'N/A':
-alt_original_price_element = product.find('span', class_='nl-price--total')
-original_price = alt_original_price_element.text.strip() if alt_original_price_element else 'N/A'
+Use re to extract the first sequence of digits found in the total_results_text and store it in the variable total_results as an integer.
 
-img_tag = product.find('img', attrs={'data-src': True})
-product_image_link = img_tag['data-src'] if img_tag and 'data-src' in img_tag.attrs else 'N/A'
+    total_results = int(re.search(r'\d+', total_results_text).group())
+
+Default number of products per page
+
+    items_per_page = 24
+    total_pages = math.ceil(total_results / items_per_page)
+```
+
+
+```
+Basic structure of locating the object then scraping out the details   
+
+    original_price_element = product.find('s', attrs={'aria-hidden': 'true'})
+    original_price = original_price_element.text.strip() if original_price_element else 'N/A'
+
+There were some products with prices in different places, so this fills in those spaces. 
+
+    if original_price == 'N/A':
+    alt_original_price_element = product.find('span', class_='nl-price--total')
+    original_price = alt_original_price_element.text.strip() if alt_original_price_element else 'N/A'
+
+I notice that the urls of the images links contained product category information.
+    img_tag = product.find('img', attrs={'data-src': True})
+    product_image_link = img_tag['data-src'] if img_tag and 'data-src' in img_tag.attrs else 'N/A'
 
 ```
 
-```
-# I wasn't actually interested in the image links as image links, but rather to parse out product category information, which didn't seem to be present anywhere else on the page. I created a function that uses urllib.parse from urlparse to grab the information that I wanted. I was having trouble getting re to work here, and this was simpler.
-
-def extract_category(link_url):
-    parsed_url = urlparse(link_url)
-    path_components = parsed_url.path.split('/')
-    category = '/'.join(path_components[3:4])
-    return category
-```
 
 ```
-# handle survey pop-up
+I wasn't actually interested in the image links as image links, but rather to parse out product category information, which didn't seem to be present anywhere else on the page. I created a function that uses urllib.parse from urlparse to grab the information that I wanted. I was having trouble getting re to work here, and this was simpler.
+
+    def extract_category(link_url):
+        parsed_url = urlparse(link_url)
+        path_components = parsed_url.path.split('/')
+        category = '/'.join(path_components[3:4])
+        return category
+    ```
+
+
+```
+handle survey pop-up
     try:
         not_right_now_button = WebDriverWait(driver3, 10).until(
             EC.element_to_be_clickable((By.ID, "kplDeclineButton"))
@@ -95,8 +102,9 @@ def extract_category(link_url):
 
 **app.py Highlights**
 -------
+
 ```
-# Loop through the table names
+Initial datas serving by accessing my sqlserver, and loop through the table names
 
 table_names = ["clearance", "sales"]
 
@@ -123,5 +131,105 @@ for table_name in table_names:
         return jsonify({"error": f"An error occurred while fetching data from the table {table_name}: {str(e)}"})
 
 return jsonify(data)
+
+```
+
+**app.js Highlights**
+-------
+
+Basic setup: 
+``````
+```
+    $.ajax({
+    url: url,
+    method: 'GET',
+    dataType: 'json',
+    cache: false,
+    success: function(data) {
+        console.log(data);
+    },
+    });
+```
+
+```
+    <div class="row">
+      <div class="col-md-12 text-center">
+        <h2>Clearance Products</h2>
+        <table id="myTable" class="display" style="width: 100%; padding: 50px;"></table>
+      </div>
+    </div>
+
+```
+
+
+```
+// Initialize the DataTable for clearance data
+    $('#myTable').DataTable({
+    data: formattedData,
+    order: [[3, 'desc']],
+    columns: columns,
+    dom: 'Blfrtip',
+    buttons: ['copy', 'csv']
+      });
+```
+
+```
+In Datatables, there lots of options for defining and modifying columns I was happy to figure out how to get the hyperlinks working.
+      const columns2 = [
+        { title: 'Product Name', className: "text-left" },
+        { title: 'Original Price', className: "text-right" },
+        { title: 'Sale Price', className: "text-right" },
+        { title: 'Percentage Off', className: "text-right" },
+        { title: 'Product Category', className: "text-left" },
+        { title: 'Rating', className: "text-right" },
+        {
+          title: 'Link',
+          className: "text-left",
+          render: function (data, type) {
+            return type === 'display' ? '<a href="' + data + '">' + data + '</a>' : data;
+          }
+        },
+      ];
+```
+
+```
+basic html structire for a slider bar 
+
+        <label for="thresholdSlider">Find products by Percentage Off.</label>
+        <input type="range" id="thresholdSlider" min="0" max="100" step="1" value="0">
+        <span id="thresholdValue">0</span>
+
+```
+
+
+```
+// Get the threshold html element and its value
+      const thresholdSlider = document.getElementById('thresholdSlider');
+      const thresholdValue = document.getElementById('thresholdValue');
+
+Update the threshold value display when the slider value changes
+      thresholdSlider.addEventListener('input', function () {
+        thresholdValue.textContent = thresholdSlider.value;
+
+Calculate the percentage threshold from the slider value
+        const thresholdPercentage = parseFloat(thresholdSlider.value);
+
+Filter the clearance_data based on the threshold
+        const dataAboveThresholdClearance = clearance_data.filter(
+          (item) => parseFloat(item.percentage_off) >= thresholdPercentage
+        );
+
+Filter the sale_data based on the threshold
+        const sale_data = response.sales.csv_data;
+        const dataAboveThresholdSale = sale_data.filter(
+          (item) => parseFloat(item.percentage_off) >= thresholdPercentage
+        );
+
+Combine the filtered clearance data and sale data -- I want to display both datasets in this table.
+        const dataAboveThreshold = dataAboveThresholdClearance.concat(dataAboveThresholdSale);
+
+Update the table with clearance and sale prices above the threshold! use 'clear()' to clear the previous selection, and 'draw()' to add the new data.
+
+        tableAboveThreshold.clear().rows.add(processData(dataAboveThreshold)).draw();
 
 ```
