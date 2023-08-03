@@ -1,7 +1,6 @@
 **Canadian Tire Clearance ETL and WebApp**
 -------
 
-
 **ETL**
 -------
 * re
@@ -183,7 +182,7 @@ In Datatables, there lots of options for defining and modifying columns I was ha
       ];
 ```
 
-basic html structire for a slider bar 
+Basic html structire for a slider bar 
 ```
 
         <label for="thresholdSlider">Find products by Percentage Off.</label>
