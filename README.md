@@ -1,27 +1,30 @@
-**Project-4: CanadianTire Clearance Webscraping**
+**Project-4: CanadianTire Clearance ETL and WebApp**
+-------
 
-**This project uses the following:**
 
-**app.py:**
-* Flask
-* sqlalchemy
-* os
-
-**app.js:**
-* ajax
-* java script
-* html
-* datatables
-
-**webscraping: ****
-* python
-* time
-* math
-* pandas
-* sqlalchemy
-* splinter/Browser
-* BeautifulSoup
-* selenium webdriver
-* urlparse
+**ETL**
+-------
 * re
 * os
+* time
+* math
+* python
+* pandas
+* urlparse
+* sqlalchemy
+* BeautifulSoup
+* splinter/Browser
+* selenium webdriver
+
+**app.py**
+-------
+* os
+* Flask
+* sqlalchemy
+
+**app.js**
+-------
+* ajax
+* html
+* datatables
+* java script
