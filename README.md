@@ -92,10 +92,36 @@ handle survey pop-up
         pass
 ```
 
+Error handling example that should have been taken care of earlier, I think.
+```
+    sales_data_to_insert = []
+    for row in csv_reader:
+        original_price = float(row[1]) if row[1] != '' else None
+        clearance_price = float(row[2]) if row[2] != '' else None
+        percentage_off = float(row[3]) if row[3] != '' else None
+        rating = float(row[6]) if row[6] != '' else None
+
+        sales_data_to_insert.append({
+            "product_name": row[0],
+            "original_price": original_price,
+            "clearance_price": clearance_price,
+            "percentage_off": percentage_off,
+            "product_category": row[4],
+            "product_code": row[5],
+            "rating": rating,
+            "link": row[7]
+        })
+
+Insert the data into the "sales" table
+    sales_insert_query = sales_table.insert()
+    engine.execute(sales_insert_query, sales_data_to_insert)
+    engine.dispose()
+```
+
 **app.py Highlights**
 -------
 
-Initial datas serving by accessing my sqlserver, and loop through the table names
+Initial data serving by accessing my sqlserver, and loop through the table names
 ```
 table_names = ["clearance", "sales"]
 
