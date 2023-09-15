@@ -1,6 +1,6 @@
 **Canadian Tire Clearance ETL and WebApp**
 -------
-This example uses an array of tools to scrape the Canadian Tire clearance section, then extract-transform-load that data on a SQLServer. Hightlights from the ETL process, and the web application that I built to visualize the data is below. 
+This example uses an array of tools to scrape the Canadian Tire clearance section, a complete ETL process, and then a interactive WebApp to visualize the data. Hightlights from the ETL process, and the web application is below. 
 
 **ETL**
 -------
