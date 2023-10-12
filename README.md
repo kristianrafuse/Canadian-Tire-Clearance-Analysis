@@ -1,6 +1,12 @@
 **Canadian Tire Clearance ETL and WebApp**
 -------
-This example shows an interactive WebApp to visualize the price data that I've scraped from CanadianTire.
+This example shows an interactive WebApp to visualize the price data that I've scraped from CanadianTire. I use Tableau to visualize pricing trends, and DataTables for an interactive way to explore the data. I created an HTML slider bar to allow users to find deals based on a clearance percentage threshold. 
+
+**Deployment**
+-------
+https://teal-sasha-50.tiiny.site/ 
+
+(Thanks for Greg Hatt for help with deploying the application!)
 
 **app.py Highlights**
 -------
@@ -92,7 +98,7 @@ In Datatables, there lots of options for defining and modifying columns I was ha
       ];
 ```
 
-Basic html structire for a slider bar 
+Basic html structure for a slider bar 
 ```
 
         <label for="thresholdSlider">Find products by Percentage Off.</label>
