@@ -4,7 +4,7 @@ This example shows an interactive WebApp to visualize the price data that I've s
 
 **Deployment**
 -------
-https://teal-sasha-50.tiiny.site/ \
+https://teal-sasha-50.tiiny.site/ 
 
 (Thanks for Greg Hatt for help with deploying the application!)
 
